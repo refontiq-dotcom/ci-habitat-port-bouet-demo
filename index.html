@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="CI HABITAT – Logements sociaux pour tous les Ivoiriens. Location-vente 10 ans, zéro apport. Fondation 18 Avril & Kedjevara Immobilier." />
+  <title>CI HABITAT | Pour tous les Ivoiriens – Fondation 18 Avril × Kedjevara</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              300: '#5eead4',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+            },
+            accent: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            },
+            earth: {
+              50: '#faf6f1',
+              100: '#f0e6d8',
+              200: '#e0c9b0',
+              800: '#5c4033',
+              900: '#3d2b22',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .step-active { @apply bg-primary-600 text-white border-primary-600; }
+    .step-done { @apply bg-primary-100 text-primary-700 border-primary-300; }
+    .glass { backdrop-filter: blur(12px); background: rgba(255,255,255,0.85); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .card-hover { transition: all 0.25s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(15,118,110,0.15); }
+    .progress-bar { transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeInUp 0.5s ease forwards; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 0.3; }
+      100% { transform: scale(0.8); opacity: 0.8; }
+    }
+    .recording-ring { animation: pulse-ring 1.2s ease-in-out infinite; }
+    @keyframes wave {
+      0%, 100% { height: 8px; }
+      50% { height: 24px; }
+    }
+    .wave-bar { animation: wave 0.8s ease-in-out infinite; }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+  </style>
+</head>
+<body class="bg-earth-50 text-gray-800 antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass border-b border-primary-100/50">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center text-white font-bold text-sm shadow-md">
+          CI
+        </div>
+        <div>
+          <span class="font-bold text-primary-800 text-lg leading-none">CI HABITAT</span>
+          <span class="block text-[10px] text-primary-600 font-medium tracking-wide">PORT-BOUËT</span>
+        </div>
+      </div>
+      
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+        <a href="#logements" class="hover:text-primary-700 transition">Logements</a>
+        <a href="#phases" class="hover:text-primary-700 transition">Phases</a>
+        <a href="#transparence" class="hover:text-primary-700 transition">Chantier</a>
+        <a href="#candidature" class="hover:text-primary-700 transition">Candidature</a>
+      </nav>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="openAdminDashboard()" class="flex items-center gap-1.5 text-xs font-semibold text-white bg-primary-800 hover:bg-primary-900 px-3 py-2 rounded-xl shadow-sm transition active:scale-95">
+          <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+          Contrôle
+        </button>
+        <button onclick="openModal('login')" class="bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold px-3 sm:px-4 py-2 rounded-xl shadow-sm transition active:scale-95">
+          Connexion
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="pt-24 pb-16 md:pt-32 md:pb-24 px-4 relative overflow-hidden">
+    <!-- Decorative blobs -->
+    <div class="absolute top-20 -right-20 w-72 h-72 bg-primary-200/40 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 -left-16 w-64 h-64 bg-accent-200/30 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-6xl mx-auto relative">
+      <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <div class="flex-1 text-center lg:text-left animate-in">
+          <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-800 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
+            <span class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+            Campagne d’enrôlement – Novembre 2026
+          </div>
+          
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+            Votre logement en Côte d’Ivoire<br>
+            <span class="text-primary-700">sans apport, en 10 ans</span>
+          </h1>
+          
+          <p class="text-gray-600 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+            Programme social de location-vente pour <strong>tous les Ivoiriens</strong>, porté par la <strong>Fondation 18 Avril</strong> et <strong>Kedjevara Immobilier</strong>. 
+            Premier site à Port-Bouët (Abidjan). Un logement par foyer. Interdiction de revente 50 ans. Transmission aux enfants.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+            <button onclick="scrollToSection('candidature')" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold px-6 py-3.5 rounded-2xl shadow-lg shadow-primary-600/25 transition active:scale-95 flex items-center justify-center gap-2">
+              <i data-lucide="file-plus-2" class="w-5 h-5"></i>
+              Déposer mon dossier
+            </button>
+            <button onclick="scrollToSection('logements')" class="bg-white hover:bg-earth-100 text-primary-800 font-semibold px-6 py-3.5 rounded-2xl border border-primary-200 transition active:scale-95 flex items-center justify-center gap-2">
+              <i data-lucide="home" class="w-5 h-5"></i>
+              Voir les logements
+            </button>
+          </div>
+          
+          <!-- Trust badges -->
+          <div class="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-primary-600"></i>
+              <span>0 risque</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-primary-600"></i>
+              <span>Ouvert à tous les Ivoiriens</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="users" class="w-4 h-4 text-primary-600"></i>
+              <span>1 logement / foyer</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hero visual card -->
+        <div class="w-full max-w-sm lg:max-w-md animate-in" style="animation-delay: 0.15s">
+          <div class="bg-white rounded-3xl shadow-xl shadow-primary-900/10 border border-primary-100 overflow-hidden">
+            <div class="bg-gradient-to-br from-primary-600 to-primary-800 p-5 text-white">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-medium opacity-90">Exemple de mensualité</span>
+                <span class="bg-white/20 text-xs px-2 py-0.5 rounded-full">Studio</span>
+              </div>
+              <div class="text-3xl font-bold">50 000 <span class="text-lg font-medium opacity-90">FCFA/mois</span></div>
+              <div class="text-sm opacity-80 mt-1">Total 6 000 000 FCFA • 120 mois</div>
+            </div>
+            <div class="p-5 space-y-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                  <i data-lucide="check-circle-2" class="w-5 h-5 text-primary-600"></i>
+                </div>
+                <div>
+                  <div class="font-medium text-sm">Zéro frais d’entrée</div>
+                  <div class="text-xs text-gray-500">Pas d’apport, caution ni dossier</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                  <i data-lucide="smartphone" class="w-5 h-5 text-primary-600"></i>
+                </div>
+                <div>
+                  <div class="font-medium text-sm">Paiement Mobile Money</div>
+                  <div class="text-xs text-gray-500">Wave • Orange • MTN • Moov</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+                  <i data-lucide="heart-handshake" class="w-5 h-5 text-primary-600"></i>
+                </div>
+                <div>
+                  <div class="font-medium text-sm">Transmission aux enfants</div>
+                  <div class="text-xs text-gray-500">Clause successorale automatique</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOGEMENTS ========== -->
+  <section id="logements" class="py-16 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Trois types de logements</h2>
+        <p class="text-gray-600 max-w-xl mx-auto">Choisissez selon votre capacité budgétaire. Les loyers deviennent votre capital sur 10 ans.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Studio -->
+        <div class="card-hover bg-earth-50 border border-earth-200 rounded-3xl p-6 relative overflow-hidden">
+          <div class="absolute top-4 right-4 bg-primary-100 text-primary-700 text-xs font-bold px-2.5 py-1 rounded-full">Populaire</div>
+          <div class="w-14 h-14 rounded-2xl bg-primary-100 flex items-center justify-center mb-5">
+            <i data-lucide="home" class="w-7 h-7 text-primary-700"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-1">Studio</h3>
+          <p class="text-sm text-gray-500 mb-5">Idéal pour célibataire ou jeune couple</p>
+          
+          <div class="mb-6">
+            <div class="text-3xl font-extrabold text-primary-700">50 000</div>
+            <div class="text-sm text-gray-500">FCFA / mois • 120 mois</div>
+            <div class="text-xs text-gray-400 mt-1">Total : 6 000 000 FCFA</div>
+          </div>
+          
+          <ul class="space-y-2.5 text-sm text-gray-600 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Surface optimisée</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Cuisine équipée</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Sanitaires modernes</li>
+          </ul>
+          
+          <button onclick="startApplication('studio')" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-xl transition active:scale-95">
+            Choisir ce logement
+          </button>
+        </div>
+        
+        <!-- 2 pièces -->
+        <div class="card-hover bg-white border-2 border-primary-200 rounded-3xl p-6 relative shadow-lg shadow-primary-100">
+          <div class="absolute top-4 right-4 bg-accent-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">Recommandé</div>
+          <div class="w-14 h-14 rounded-2xl bg-accent-100 flex items-center justify-center mb-5">
+            <i data-lucide="layout-grid" class="w-7 h-7 text-accent-600"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-1">Appartement 2 pièces</h3>
+          <p class="text-sm text-gray-500 mb-5">Parfait pour petite famille</p>
+          
+          <div class="mb-6">
+            <div class="text-3xl font-extrabold text-primary-700">120–130k</div>
+            <div class="text-sm text-gray-500">FCFA / mois • 120 mois</div>
+            <div class="text-xs text-gray-400 mt-1">Total : 14,4M – 15,6M FCFA</div>
+          </div>
+          
+          <ul class="space-y-2.5 text-sm text-gray-600 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Salon + chambre</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Cuisine séparée</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Balcon / terrasse</li>
+          </ul>
+          
+          <button onclick="startApplication('2_pieces')" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-xl transition active:scale-95">
+            Choisir ce logement
+          </button>
+        </div>
+        
+        <!-- 3 pièces -->
+        <div class="card-hover bg-earth-50 border border-earth-200 rounded-3xl p-6">
+          <div class="w-14 h-14 rounded-2xl bg-earth-200 flex items-center justify-center mb-5">
+            <i data-lucide="building-2" class="w-7 h-7 text-earth-800"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-1">Appartement 3 pièces</h3>
+          <p class="text-sm text-gray-500 mb-5">Pour familles plus nombreuses</p>
+          
+          <div class="mb-6">
+            <div class="text-3xl font-extrabold text-primary-700">180–200k</div>
+            <div class="text-sm text-gray-500">FCFA / mois • 120 mois</div>
+            <div class="text-xs text-gray-400 mt-1">Total : 21,6M – 24M FCFA</div>
+          </div>
+          
+          <ul class="space-y-2.5 text-sm text-gray-600 mb-6">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> 2 chambres + salon</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Grande cuisine</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600"></i> Espaces optimisés</li>
+          </ul>
+          
+          <button onclick="startApplication('3_pieces')" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 rounded-xl transition active:scale-95">
+            Choisir ce logement
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== AVANTAGES ========== -->
+  <section id="avantages" class="py-16 px-4 bg-gradient-to-b from-primary-50 to-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Les règles qui protègent le programme</h2>
+        <p class="text-gray-600 max-w-xl mx-auto">Des clauses strictes pour garantir le caractère social et éviter la spéculation.</p>
+      </div>
+      
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center mb-4">
+            <i data-lucide="badge-percent" class="w-5 h-5 text-green-700"></i>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-1">Zéro frais d’entrée</h3>
+          <p class="text-sm text-gray-600">Aucun apport, caution, frais de dossier ou avance. Vous emménagez et commencez à payer.</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
+            <i data-lucide="users-round" class="w-5 h-5 text-blue-700"></i>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-1">Un logement par foyer</h3>
+          <p class="text-sm text-gray-600">Contrôle anti-cumul strict via CNI des conjoints. Un seul logement par foyer, pour tous les Ivoiriens.</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-orange-100 flex items-center justify-center mb-4">
+            <i data-lucide="lock" class="w-5 h-5 text-orange-700"></i>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-1">Interdiction de revente 50 ans</h3>
+          <p class="text-sm text-gray-600">Le bien reste social. Aucune spéculation possible. Verrouillage technique dans le système.</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
+            <i data-lucide="heart" class="w-5 h-5 text-purple-700"></i>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-1">Transmission aux enfants</h3>
+          <p class="text-sm text-gray-600">En cas de décès, le contrat est automatiquement transmis aux enfants déclarés. Zéro formalité complexe.</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-teal-100 flex items-center justify-center mb-4">
+            <i data-lucide="map-pinned" class="w-5 h-5 text-teal-700"></i>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-1">Ouvert à tous les Ivoiriens</h3>
+          <p class="text-sm text-gray-600">Tout citoyen ivoirien peut candidater. Premier programme implanté à Port-Bouët (Abidjan).</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm">
+          <div class="w-11 h-11 rounded-xl bg-rose-100 flex items-center justify-center mb-4">
+            <i data-lucide="eye" class="w-5 h-5 text-rose-700"></i>
+          </div>
+          <h3 class="font-bold text-gray-900 mb-1">Transparence totale</h3>
+          <p class="text-sm text-gray-600">Photos géolocalisées du chantier, documents légaux (TF, PC) accessibles à tout moment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PHASES DU PROGRAMME ========== -->
+  <section id="phases" class="py-16 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Deux phases, une trajectoire claire</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Pour tous les Ivoiriens. Premier site à Port-Bouët. Une méthode solide du dépôt jusqu’à la remise des clés.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+        <!-- PHASE 1 -->
+        <div class="relative rounded-3xl border-2 border-primary-200 bg-primary-50/50 p-6 sm:p-8 overflow-hidden">
+          <div class="absolute top-0 right-0 bg-primary-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-2xl">EN COURS</div>
+          <div class="text-primary-700 font-bold text-sm tracking-wide mb-2">PHASE 1</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Dépôt & tri des dossiers</h3>
+          <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+            Pendant que les logements se construisent, nous collectons et filtrons les candidatures de toute la Côte d’Ivoire. Objectif : une file d’attente propre, sans fraude, prête pour l’attribution.
+          </p>
+          <ul class="space-y-2.5 text-sm text-gray-700">
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5"></i> Candidature 100 % mobile (OTP + pièces)</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5"></i> Filtre anti-doublon (CNI, téléphone, foyer)</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5"></i> Tri automatique puis revue humaine ciblée</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5"></i> Créneaux de visite limités (pas de file anarchique)</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5"></i> Suivi chantier visible pour rassurer (« 0 risque »)</li>
+          </ul>
+        </div>
+        
+        <!-- PHASE 2 -->
+        <div class="relative rounded-3xl border border-gray-200 bg-gray-50 p-6 sm:p-8 overflow-hidden">
+          <div class="absolute top-0 right-0 bg-gray-700 text-white text-xs font-bold px-4 py-1.5 rounded-bl-2xl">ENSUite</div>
+          <div class="text-gray-500 font-bold text-sm tracking-wide mb-2">PHASE 2</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Attribution, contrats & paiements</h3>
+          <p class="text-sm text-gray-600 mb-5 leading-relaxed">
+            Quand les logements sont prêts, les dossiers validés passent à l’attribution. Signature du contrat de location-vente, emménagement, puis paiement mensuel sur 120 mois via Mobile Money.
+          </p>
+          <ul class="space-y-2.5 text-sm text-gray-700">
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5"></i> Attribution selon file et typologie (studio / 2p / 3p)</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5"></i> Contrat 120 mois + clause succession enfants</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5"></i> Échéancier automatique + push Mobile Money</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5"></i> Relances SMS / WhatsApp (J-3, J, J+3)</li>
+            <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5"></i> Verrou anti-revente 50 ans dans le système</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-5 rounded-2xl bg-[#0f3d38] text-white text-center sm:text-left sm:flex sm:items-center sm:justify-between gap-4">
+        <div>
+          <div class="font-semibold">Message clé pour le comité</div>
+          <div class="text-sm text-white/80 mt-1">On ne construit pas d’abord pour gérer le chaos ensuite. On structure les dossiers pendant le chantier, pour attribuer sereinement à la livraison.</div>
+        </div>
+        <button onclick="scrollToSection('candidature')" class="mt-4 sm:mt-0 flex-shrink-0 bg-white text-[#0f3d38] font-semibold text-sm px-5 py-2.5 rounded-xl">
+          Déposer un dossier
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TRANSPARENCE CHANTIER ========== -->
+  <section id="transparence" class="py-16 px-4 bg-earth-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Suivi de chantier en direct</h2>
+          <p class="text-gray-600">Preuve visuelle « 0 risque ». Photos prises par les ingénieurs sur le terrain.</p>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-primary-700 font-medium">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          Dernière mise à jour : il y a 2 jours
+        </div>
+      </div>
+      
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Log 1 -->
+        <div class="bg-earth-50 rounded-2xl overflow-hidden border border-earth-200">
+          <div class="aspect-[4/3] bg-gradient-to-br from-primary-200 to-primary-400 flex items-center justify-center relative">
+            <i data-lucide="image" class="w-12 h-12 text-white/60"></i>
+            <span class="absolute bottom-3 left-3 bg-black/50 text-white text-xs px-2 py-1 rounded-lg backdrop-blur">Terrassement</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-gray-900 text-sm mb-1">Préparation du terrain – Bloc A</h3>
+            <p class="text-xs text-gray-500 mb-2">28 août 2026 • Géolocalisé Port-Bouët</p>
+            <div class="flex items-center gap-1 text-xs text-primary-600">
+              <i data-lucide="map-pin" class="w-3 h-3"></i>
+              5.28°N, 3.96°W
+            </div>
+          </div>
+        </div>
+        
+        <!-- Log 2 -->
+        <div class="bg-earth-50 rounded-2xl overflow-hidden border border-earth-200">
+          <div class="aspect-[4/3] bg-gradient-to-br from-accent-200 to-accent-400 flex items-center justify-center relative">
+            <i data-lucide="image" class="w-12 h-12 text-white/60"></i>
+            <span class="absolute bottom-3 left-3 bg-black/50 text-white text-xs px-2 py-1 rounded-lg backdrop-blur">Élévation</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-gray-900 text-sm mb-1">Élévation des murs – RDC</h3>
+            <p class="text-xs text-gray-500 mb-2">25 août 2026 • Géolocalisé Port-Bouët</p>
+            <div class="flex items-center gap-1 text-xs text-primary-600">
+              <i data-lucide="map-pin" class="w-3 h-3"></i>
+              5.28°N, 3.96°W
+            </div>
+          </div>
+        </div>
+        
+        <!-- Log 3 -->
+        <div class="bg-earth-50 rounded-2xl overflow-hidden border border-earth-200">
+          <div class="aspect-[4/3] bg-gradient-to-br from-earth-200 to-earth-400 flex items-center justify-center relative">
+            <i data-lucide="image" class="w-12 h-12 text-white/60"></i>
+            <span class="absolute bottom-3 left-3 bg-black/50 text-white text-xs px-2 py-1 rounded-lg backdrop-blur">Finitions</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-gray-900 text-sm mb-1">Pose des menuiseries – Phase test</h3>
+            <p class="text-xs text-gray-500 mb-2">20 août 2026 • Géolocalisé Port-Bouët</p>
+            <div class="flex items-center gap-1 text-xs text-primary-600">
+              <i data-lucide="map-pin" class="w-3 h-3"></i>
+              5.28°N, 3.96°W
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-5 bg-primary-50 rounded-2xl border border-primary-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="file-text" class="w-6 h-6 text-primary-700"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-semibold text-gray-900">Documents de conformité disponibles</h3>
+          <p class="text-sm text-gray-600">Titre Foncier global • Permis de Construire • Agrément Ministère • Convention Fondation 18 Avril</p>
+        </div>
+        <button class="text-sm font-semibold text-primary-700 hover:text-primary-800 flex items-center gap-1">
+          Voir les documents <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CANDIDATURE / FORMULAIRE ========== -->
+  <section id="candidature" class="py-16 px-4 bg-gradient-to-b from-earth-50 to-white">
+    <div class="max-w-2xl mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Déposer mon dossier</h2>
+        <p class="text-gray-600">Formulaire simple. Décrivez votre activité comme vous parlez. Pas de jargon.</p>
+      </div>
+      
+      <!-- Progress Steps -->
+      <div class="flex items-center justify-between mb-10 px-2">
+        <div class="flex flex-col items-center gap-1.5 flex-1">
+          <div id="step-1-indicator" class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-bold step-active transition-all">1</div>
+          <span class="text-xs font-medium text-primary-700">Identité</span>
+        </div>
+        <div class="h-0.5 flex-1 bg-gray-200 mx-1"></div>
+        <div class="flex flex-col items-center gap-1.5 flex-1">
+          <div id="step-2-indicator" class="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center text-sm font-bold text-gray-400 transition-all">2</div>
+          <span class="text-xs font-medium text-gray-400">Activité</span>
+        </div>
+        <div class="h-0.5 flex-1 bg-gray-200 mx-1"></div>
+        <div class="flex flex-col items-center gap-1.5 flex-1">
+          <div id="step-3-indicator" class="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center text-sm font-bold text-gray-400 transition-all">3</div>
+          <span class="text-xs font-medium text-gray-400">Justificatifs</span>
+        </div>
+        <div class="h-0.5 flex-1 bg-gray-200 mx-1"></div>
+        <div class="flex flex-col items-center gap-1.5 flex-1">
+          <div id="step-4-indicator" class="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center text-sm font-bold text-gray-400 transition-all">4</div>
+          <span class="text-xs font-medium text-gray-400">Budget</span>
+        </div>
+      </div>
+      
+      <!-- Form Card -->
+      <div class="bg-white rounded-3xl shadow-xl shadow-primary-900/5 border border-primary-100 p-6 sm:p-8">
+        
+        <!-- STEP 1 : Identité -->
+        <div id="form-step-1" class="space-y-5">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nom complet</label>
+            <input type="text" id="full_name" placeholder="Ex: Kouassi Aya Marie" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition text-base">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Numéro CNI</label>
+            <input type="text" id="cni_number" placeholder="CI 12 3456789 01" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition text-base">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Numéro de téléphone (WhatsApp)</label>
+            <div class="flex">
+              <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm font-medium">+225</span>
+              <input type="tel" id="phone" placeholder="07 08 09 10 11" class="flex-1 px-4 py-3 rounded-r-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition text-base">
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Ville / commune où vous vivez</label>
+            <input type="text" id="locality" placeholder="Ex: Abidjan, Bouaké, San-Pédro, Yamoussoukro…" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition text-base">
+            <p class="text-xs text-gray-500 mt-1.5">Ouvert à tous les Ivoiriens. Premier site de logements : Port-Bouët (Abidjan).</p>
+          </div>
+          
+          <button onclick="nextStep(2)" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition active:scale-95 mt-2">
+            Continuer
+          </button>
+        </div>
+        
+        <!-- STEP 2 : Activité -->
+        <div id="form-step-2" class="space-y-5 hidden">
+          <div class="bg-primary-50 border border-primary-100 rounded-xl p-4 text-sm text-primary-800">
+            <strong>Important :</strong> Décrivez votre activité simplement, comme vous parlez. Exemple : « Je vends de l’igname au marché de Vridi, je gagne environ 150 000 FCFA par mois. »
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Décrivez votre activité</label>
+            <div class="relative">
+              <textarea id="activity" rows="4" placeholder="Je suis..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition text-base resize-none pr-14"></textarea>
+              
+              <!-- Bouton micro flottant -->
+              <button type="button" id="mic-btn" onclick="toggleDictation()" 
+                class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center shadow-lg transition active:scale-90">
+                <i data-lucide="mic" id="mic-icon" class="w-5 h-5"></i>
+              </button>
+            </div>
+            
+            <!-- Zone d'enregistrement (cachée par défaut) -->
+            <div id="recording-ui" class="hidden mt-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <div class="relative">
+                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div class="absolute inset-0 w-3 h-3 bg-red-500 rounded-full recording-ring"></div>
+                  </div>
+                  <span class="text-sm font-medium text-red-700">Enregistrement en cours...</span>
+                </div>
+                <span id="recording-timer" class="text-sm font-mono text-red-600">0:00</span>
+              </div>
+              
+              <!-- Visualiseur d'ondes -->
+              <div class="flex items-center justify-center gap-1 h-8 mb-3">
+                <div class="w-1 bg-red-400 rounded-full wave-bar" style="height:12px"></div>
+                <div class="w-1 bg-red-400 rounded-full wave-bar" style="height:20px"></div>
+                <div class="w-1 bg-red-400 rounded-full wave-bar" style="height:16px"></div>
+                <div class="w-1 bg-red-400 rounded-full wave-bar" style="height:24px"></div>
+                <div class="w-1 bg-red-400 rounded-full wave-bar" style="height:10px"></div>
+              </div>
+              
+              <div class="flex gap-2">
+                <button type="button" onclick="stopDictation(false)" class="flex-1 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg">
+                  Annuler
+                </button>
+                <button type="button" onclick="stopDictation(true)" class="flex-1 py-2 text-sm font-medium text-white bg-red-600 rounded-lg">
+                  Arrêter & transcrire
+                </button>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between mt-1.5">
+              <span class="text-xs text-gray-400">Appuyez sur le micro pour dicter</span>
+              <span class="text-xs text-primary-600 font-medium">Expression simple = mieux notée</span>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Revenu mensuel estimé (FCFA)</label>
+            <input type="number" id="income" placeholder="150000" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition text-base">
+          </div>
+          
+          <div class="flex gap-3">
+            <button onclick="nextStep(1)" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3.5 rounded-xl transition">Retour</button>
+            <button onclick="nextStep(3)" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition active:scale-95">Continuer</button>
+          </div>
+        </div>
+        
+        <!-- STEP 3 : Justificatifs -->
+        <div id="form-step-3" class="space-y-5 hidden">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Justificatif de résidence</label>
+            <p class="text-xs text-gray-500 mb-2">Facture CIE, SODECI, certificat de résidence ou tout document prouvant où vous vivez (moins de 3 mois)</p>
+            <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-primary-200 rounded-xl cursor-pointer hover:bg-primary-50 transition">
+              <i data-lucide="upload-cloud" class="w-8 h-8 text-primary-500 mb-2"></i>
+              <span class="text-sm text-primary-700 font-medium">Toucher pour ajouter le fichier</span>
+              <span class="text-xs text-gray-400 mt-1">JPG, PNG ou PDF • max 5 Mo</span>
+              <input type="file" class="hidden" accept="image/*,.pdf">
+            </label>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Photo de votre CNI (recto)</label>
+            <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
+              <i data-lucide="credit-card" class="w-7 h-7 text-gray-400 mb-1.5"></i>
+              <span class="text-sm text-gray-600">Ajouter la photo</span>
+              <input type="file" class="hidden" accept="image/*">
+            </label>
+          </div>
+          
+          <div class="border-t border-gray-100 pt-4">
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+              <span class="text-sm text-gray-600">J’ai un conjoint / une conjointe (pour contrôle anti-cumul)</span>
+            </label>
+          </div>
+          
+          <div class="flex gap-3">
+            <button onclick="nextStep(2)" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3.5 rounded-xl transition">Retour</button>
+            <button onclick="nextStep(4)" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition active:scale-95">Continuer</button>
+          </div>
+        </div>
+        
+        <!-- STEP 4 : Budget -->
+        <div id="form-step-4" class="space-y-5 hidden">
+          <div class="bg-primary-50 border border-primary-100 rounded-xl p-4 text-sm text-primary-900">
+            <strong>Dites la vérité.</strong> Écrivez ce que vous gagnez et ce que vous dépensez vraiment chaque mois. Le comité vérifiera.
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Combien gagne le foyer par mois ?</label>
+              <p class="text-xs text-gray-500 mb-1.5">Salaire, vente au marché, transport, aide de la famille…</p>
+              <input type="number" id="budget_income" placeholder="Exemple : 200000" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 outline-none text-base">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Combien pour vivre chaque mois ?</label>
+              <p class="text-xs text-gray-500 mb-1.5">Manger, santé, école des enfants, habits</p>
+              <input type="number" id="budget_expenses" placeholder="Exemple : 80000" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 outline-none text-base">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Loyer que vous payez aujourd’hui</label>
+              <input type="number" id="budget_rent" placeholder="Exemple : 40000" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 outline-none text-base">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Transport chaque mois</label>
+              <p class="text-xs text-gray-500 mb-1.5">Gbaka, taxi, essence…</p>
+              <input type="number" id="budget_transport" placeholder="Exemple : 25000" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 outline-none text-base">
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Logement que vous voulez</label>
+            <select id="housing_choice" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 outline-none bg-white text-base">
+              <option value="50000">Studio – 50 000 FCFA/mois</option>
+              <option value="125000">2 pièces – 120-130 000 FCFA/mois</option>
+              <option value="190000">3 pièces – 180-200 000 FCFA/mois</option>
+            </select>
+          </div>
+          
+          <!-- Solde calculé en secret pour l'admin — le candidat ne le voit PAS -->
+          <span id="budget_result" class="hidden">—</span>
+          
+          <div class="flex gap-3">
+            <button onclick="nextStep(3)" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3.5 rounded-xl transition">Retour</button>
+            <button onclick="submitApplication()" class="flex-1 bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition active:scale-95 flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              Envoyer mon dossier
+            </button>
+          </div>
+        </div>
+        
+        <!-- SUCCESS STATE -->
+        <div id="form-success" class="hidden text-center py-8">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
+            <i data-lucide="check" class="w-8 h-8 text-green-600"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Dossier bien reçu !</h3>
+          <p class="text-gray-600 mb-6">Votre candidature a été enregistrée. Vous recevrez une confirmation par SMS et WhatsApp. Le dépôt physique ouvrira en novembre à Port-Bouët.</p>
+          <button onclick="openDashboard()" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold px-6 py-3 rounded-xl transition">
+            Voir mon espace candidat
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DASHBOARD PREVIEW (hidden by default) ========== -->
+  <section id="dashboard-preview" class="py-16 px-4 bg-gray-50 hidden">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900">Mon espace</h2>
+          <p class="text-sm text-gray-500">Kouassi Aya Marie • Candidat</p>
+        </div>
+        <button onclick="closeDashboard()" class="text-sm text-primary-600 font-medium">← Retour au site</button>
+      </div>
+      
+      <!-- Status card -->
+      <div class="bg-white rounded-2xl p-5 border border-primary-100 shadow-sm mb-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-xs text-gray-500 mb-1">Statut du dossier</div>
+            <div class="font-bold text-lg text-amber-600 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse"></span>
+              En attente d’examen
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-gray-500">Référence</div>
+            <div class="font-mono text-sm font-semibold">PB-2026-00482</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick actions -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <button onclick="showDashTab('dossier')" class="dash-tab bg-white rounded-xl p-4 border border-gray-100 text-center hover:border-primary-200 transition">
+          <i data-lucide="file-text" class="w-6 h-6 text-primary-600 mx-auto mb-2"></i>
+          <span class="text-xs font-medium">Mon dossier</span>
+        </button>
+        <button onclick="showDashTab('chantier')" class="dash-tab bg-white rounded-xl p-4 border border-gray-100 text-center hover:border-primary-200 transition">
+          <i data-lucide="camera" class="w-6 h-6 text-primary-600 mx-auto mb-2"></i>
+          <span class="text-xs font-medium">Chantier</span>
+        </button>
+        <button onclick="showDashTab('paiements')" class="dash-tab bg-primary-50 border-primary-200 rounded-xl p-4 text-center transition">
+          <i data-lucide="wallet" class="w-6 h-6 text-primary-600 mx-auto mb-2"></i>
+          <span class="text-xs font-medium text-primary-700">Paiements</span>
+        </button>
+        <button onclick="showDashTab('aide')" class="dash-tab bg-white rounded-xl p-4 border border-gray-100 text-center hover:border-primary-200 transition">
+          <i data-lucide="message-circle" class="w-6 h-6 text-primary-600 mx-auto mb-2"></i>
+          <span class="text-xs font-medium">Aide</span>
+        </button>
+      </div>
+      
+      <!-- TAB: Dossier / Next steps (default visible) -->
+      <div id="dash-dossier" class="dash-panel space-y-6">
+        <div class="bg-white rounded-2xl p-5 border border-gray-100">
+          <h3 class="font-semibold text-gray-900 mb-4">Prochaines étapes</h3>
+          <div class="space-y-4">
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+              </div>
+              <div>
+                <div class="font-medium text-sm">Dossier déposé en ligne</div>
+                <div class="text-xs text-gray-500">30 août 2026</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-bold text-primary-700">2</span>
+              </div>
+              <div>
+                <div class="font-medium text-sm">Dépôt physique à Port-Bouët</div>
+                <div class="text-xs text-gray-500">Ouverture prévue novembre 2026</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-bold text-gray-400">3</span>
+              </div>
+              <div>
+                <div class="font-medium text-sm text-gray-400">Attribution & signature contrat</div>
+                <div class="text-xs text-gray-400">Après validation du comité</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- TAB: Chantier -->
+      <div id="dash-chantier" class="dash-panel hidden space-y-4">
+        <div class="bg-white rounded-2xl p-5 border border-gray-100">
+          <h3 class="font-semibold text-gray-900 mb-3">Dernières photos du chantier</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="aspect-square bg-gradient-to-br from-primary-200 to-primary-400 rounded-xl flex items-center justify-center">
+              <span class="text-white text-xs font-medium">Terrassement</span>
+            </div>
+            <div class="aspect-square bg-gradient-to-br from-accent-200 to-accent-400 rounded-xl flex items-center justify-center">
+              <span class="text-white text-xs font-medium">Élévation</span>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 mt-3">Photos géolocalisées • Mise à jour il y a 2 jours</p>
+        </div>
+      </div>
+      
+      <!-- TAB: Paiements (simulation Mobile Money) -->
+      <div id="dash-paiements" class="dash-panel hidden space-y-5">
+        <!-- Prochaine échéance -->
+        <div class="bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl p-5 text-white">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm opacity-90">Prochaine échéance</span>
+            <span class="bg-white/20 text-xs px-2.5 py-1 rounded-full">Mensualité 1/120</span>
+          </div>
+          <div class="text-3xl font-bold mb-1">50 000 <span class="text-lg font-medium opacity-90">FCFA</span></div>
+          <div class="text-sm opacity-80">Échéance le 1er septembre 2026</div>
+          
+          <div class="mt-5 pt-4 border-t border-white/20">
+            <div class="text-xs opacity-80 mb-2">Choisir un moyen de paiement</div>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="simulatePayment('wave')" class="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl py-3 text-sm font-semibold transition flex items-center justify-center gap-2">
+                <span class="w-5 h-5 bg-yellow-400 rounded-full"></span> Wave
+              </button>
+              <button onclick="simulatePayment('orange')" class="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl py-3 text-sm font-semibold transition flex items-center justify-center gap-2">
+                <span class="w-5 h-5 bg-orange-500 rounded-full"></span> Orange
+              </button>
+              <button onclick="simulatePayment('mtn')" class="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl py-3 text-sm font-semibold transition flex items-center justify-center gap-2">
+                <span class="w-5 h-5 bg-yellow-500 rounded-full"></span> MTN MoMo
+              </button>
+              <button onclick="simulatePayment('moov')" class="bg-white/15 hover:bg-white/25 backdrop-blur rounded-xl py-3 text-sm font-semibold transition flex items-center justify-center gap-2">
+                <span class="w-5 h-5 bg-blue-500 rounded-full"></span> Moov
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Historique simulé -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100">
+          <h3 class="font-semibold text-gray-900 mb-4">Historique des paiements</h3>
+          <div id="payment-history" class="space-y-3">
+            <div class="text-center py-6 text-sm text-gray-400">
+              Aucun paiement effectué pour le moment.<br>
+              Votre première mensualité sera due après attribution.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Échéancier aperçu -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Échéancier (120 mois)</h3>
+            <span class="text-xs text-gray-500">Studio • 50 000 FCFA</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between py-2 border-b border-gray-50">
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-gray-100 text-xs font-bold flex items-center justify-center text-gray-500">1</span>
+                <div>
+                  <div class="text-sm font-medium">1er septembre 2026</div>
+                  <div class="text-xs text-gray-400">En attente</div>
+                </div>
+              </div>
+              <span class="text-sm font-semibold">50 000 F</span>
+            </div>
+            <div class="flex items-center justify-between py-2 border-b border-gray-50 opacity-60">
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-gray-100 text-xs font-bold flex items-center justify-center text-gray-500">2</span>
+                <div>
+                  <div class="text-sm font-medium">1er octobre 2026</div>
+                  <div class="text-xs text-gray-400">À venir</div>
+                </div>
+              </div>
+              <span class="text-sm font-semibold">50 000 F</span>
+            </div>
+            <div class="flex items-center justify-between py-2 opacity-40">
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-gray-100 text-xs font-bold flex items-center justify-center text-gray-500">3</span>
+                <div>
+                  <div class="text-sm font-medium">1er novembre 2026</div>
+                  <div class="text-xs text-gray-400">À venir</div>
+                </div>
+              </div>
+              <span class="text-sm font-semibold">50 000 F</span>
+            </div>
+          </div>
+          <button class="w-full mt-4 text-sm text-primary-600 font-medium py-2">Voir les 120 échéances →</button>
+        </div>
+      </div>
+      
+      <!-- TAB: Aide -->
+      <div id="dash-aide" class="dash-panel hidden">
+        <div class="bg-white rounded-2xl p-5 border border-gray-100 space-y-4">
+          <h3 class="font-semibold text-gray-900">Besoin d’aide ?</h3>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition">
+            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+              <i data-lucide="message-circle" class="w-5 h-5 text-green-600"></i>
+            </div>
+            <div>
+              <div class="font-medium text-sm">WhatsApp Support</div>
+              <div class="text-xs text-gray-500">Réponse sous 24h</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition">
+            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+              <i data-lucide="phone" class="w-5 h-5 text-blue-600"></i>
+            </div>
+            <div>
+              <div class="font-medium text-sm">Appeler le bureau Port-Bouët</div>
+              <div class="text-xs text-gray-500">Ouverture novembre 2026</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Modal de paiement réussi -->
+  <div id="modal-payment-success" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute bottom-0 left-0 right-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-white rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full sm:max-w-sm shadow-2xl text-center safe-bottom">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="check" class="w-8 h-8 text-green-600"></i>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2">Paiement réussi !</h3>
+      <p class="text-sm text-gray-600 mb-1">50 000 FCFA ont été débités</p>
+      <p id="payment-gateway-name" class="text-sm font-medium text-primary-700 mb-6">via Wave</p>
+      <div class="bg-gray-50 rounded-xl p-3 text-left text-xs text-gray-500 mb-6">
+        <div class="flex justify-between mb-1"><span>Référence</span><span class="font-mono">WV-20260901-88421</span></div>
+        <div class="flex justify-between"><span>Date</span><span>01/09/2026 • 08:12</span></div>
+      </div>
+      <button onclick="closePaymentSuccess()" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition">
+        Fermer
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== MODAL DÉTAIL DOSSIER ========== -->
+  <div id="modal-dossier" class="fixed inset-0 z-[110] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDossierDetail()"></div>
+    <div class="absolute inset-x-0 bottom-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-2xl sm:w-full bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl max-h-[92vh] overflow-y-auto safe-bottom">
+      
+      <!-- Header sticky -->
+      <div class="sticky top-0 bg-white border-b border-gray-100 px-5 py-4 flex items-center justify-between z-10 rounded-t-3xl">
+        <div>
+          <div class="text-xs text-gray-500" id="dossier-ref">PB-2026-00482</div>
+          <h3 class="font-bold text-gray-900 text-lg" id="dossier-name">Kouassi Aya Marie</h3>
+        </div>
+        <button onclick="closeDossierDetail()" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      
+      <div class="p-5 space-y-5">
+        <!-- Status + Type -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="dossier-status" class="text-xs font-semibold bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full">En revue</span>
+          <span id="dossier-type" class="text-xs font-semibold bg-primary-50 text-primary-700 px-2.5 py-1 rounded-full">Studio • 50 000 FCFA/mois</span>
+          <span class="text-xs text-gray-400">Déposé le 28 août 2026</span>
+        </div>
+        
+        <!-- Identité -->
+        <div class="bg-gray-50 rounded-2xl p-4">
+          <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Identité & Contact</h4>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div>
+              <div class="text-xs text-gray-400">CNI</div>
+              <div class="font-medium" id="dossier-cni">CI 12 3456789 01</div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-400">Téléphone</div>
+              <div class="font-medium" id="dossier-phone">+225 07 08 09 10 11</div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-400">Localité</div>
+              <div class="font-medium text-green-700 flex items-center gap-1">
+                <i data-lucide="map-pin" class="w-3 h-3"></i> Port-Bouët
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-400">Résidence vérifiée</div>
+              <div class="font-medium text-green-700" id="dossier-residence">Oui • Facture CIE</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Activité -->
+        <div>
+          <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Activité déclarée</h4>
+          <div class="bg-primary-50 border border-primary-100 rounded-xl p-4 text-sm text-primary-900 leading-relaxed" id="dossier-activity">
+            Je vends de l'igname et du manioc au marché de Vridi. Je gagne environ 120 000 à 180 000 francs par mois selon la saison.
+          </div>
+          <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-primary-500"></i>
+            Expression simple et authentique — score linguistique élevé
+          </div>
+        </div>
+        
+        <!-- Capacité budgétaire -->
+        <div>
+          <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Capacité budgétaire</h4>
+          <div class="bg-white border border-gray-100 rounded-xl overflow-hidden text-sm">
+            <div class="flex justify-between px-4 py-2.5 border-b border-gray-50">
+              <span class="text-gray-500">Gains du foyer / mois</span>
+              <span class="font-medium" id="dossier-income">180 000 FCFA</span>
+            </div>
+            <div class="flex justify-between px-4 py-2.5 border-b border-gray-50">
+              <span class="text-gray-500">Pour vivre (manger, santé, école…)</span>
+              <span class="font-medium" id="dossier-expenses">75 000 FCFA</span>
+            </div>
+            <div class="flex justify-between px-4 py-2.5 border-b border-gray-50">
+              <span class="text-gray-500">Loyer actuel</span>
+              <span class="font-medium" id="dossier-rent">35 000 FCFA</span>
+            </div>
+            <div class="flex justify-between px-4 py-2.5 border-b border-gray-50">
+              <span class="text-gray-500">Mensualité du logement visé</span>
+              <span class="font-medium text-primary-700" id="dossier-monthly">50 000 FCFA</span>
+            </div>
+            <div class="flex justify-between px-4 py-3 bg-green-50">
+              <span class="font-semibold text-green-800">Reste après paiement (contrôle interne)</span>
+              <span class="font-bold text-green-700" id="dossier-balance">+ 55 000 FCFA</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Documents -->
+        <div>
+          <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Pièces jointes</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="border border-gray-200 rounded-xl p-3 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                <i data-lucide="file-text" class="w-5 h-5 text-blue-600"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate">Facture CIE</div>
+                <div class="text-xs text-gray-400">Port-Bouët • Août 2026</div>
+              </div>
+            </div>
+            <div class="border border-gray-200 rounded-xl p-3 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                <i data-lucide="credit-card" class="w-5 h-5 text-purple-600"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate">CNI (recto)</div>
+                <div class="text-xs text-gray-400">Vérifiée</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Foyer & Succession -->
+        <div>
+          <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Foyer & Succession</h4>
+          <div class="bg-gray-50 rounded-xl p-4 text-sm space-y-2">
+            <div class="flex justify-between">
+              <span class="text-gray-500">Conjoint(e)</span>
+              <span class="font-medium" id="dossier-spouse">Non déclaré</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">Enfants déclarés</span>
+              <span class="font-medium" id="dossier-children">2 (actes joints)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-500">Contrôle anti-cumul</span>
+              <span class="font-medium text-green-700">Aucun doublon détecté</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Motif rejet (si applicable) -->
+        <div id="dossier-reject-box" class="hidden bg-red-50 border border-red-100 rounded-xl p-4">
+          <h4 class="text-sm font-semibold text-red-800 mb-1">Motif de rejet</h4>
+          <p class="text-sm text-red-700" id="dossier-reject-reason">—</p>
+        </div>
+        
+        <!-- Actions admin -->
+        <div id="dossier-actions" class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button onclick="dossierAction('reject')" class="flex-1 py-3 rounded-xl border border-red-200 text-red-600 font-semibold text-sm hover:bg-red-50 transition">
+            Rejeter
+          </button>
+          <button onclick="dossierAction('request')" class="flex-1 py-3 rounded-xl border border-amber-200 text-amber-700 font-semibold text-sm hover:bg-amber-50 transition">
+            Demander complément
+          </button>
+          <button onclick="dossierAction('approve')" class="flex-1 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm transition">
+            Valider le dossier
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ADMIN DASHBOARD PROMOTEUR (Template pro) ========== -->
+  <section id="admin-dashboard" class="fixed inset-0 z-[90] hidden">
+    <div class="flex h-full w-full bg-[#f0f4f3]">
+      
+      <!-- ===== SIDEBAR ===== -->
+      <aside id="admin-sidebar" class="w-[240px] flex-shrink-0 bg-[#0f3d38] text-white flex flex-col h-full hidden md:flex">
+        <div class="px-5 py-6 flex items-center gap-3 border-b border-white/10">
+          <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center font-extrabold text-lg tracking-tight">CI</div>
+          <div>
+            <div class="font-bold text-sm leading-tight">CI HABITAT</div>
+            <div class="text-[10px] text-white/60">Contrôle Port-Bouët</div>
+          </div>
+        </div>
+        
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          <div class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-wider text-white/40">Phase 1 — Dépôt</div>
+          <button onclick="adminNav('dashboard')" data-nav="dashboard" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-[#1a9b8e] text-white">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Pilotage
+          </button>
+          <button onclick="adminNav('dossiers')" data-nav="dossiers" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition">
+            <i data-lucide="folder-open" class="w-4 h-4"></i> File des dossiers
+          </button>
+          <button onclick="adminNav('visites')" data-nav="visites" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition">
+            <i data-lucide="calendar-clock" class="w-4 h-4"></i> Créneaux visite
+          </button>
+          <button onclick="adminNav('fraude')" data-nav="fraude" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition">
+            <i data-lucide="shield-alert" class="w-4 h-4"></i> Anti-fraude
+          </button>
+          <div class="pt-4 mt-2 border-t border-white/10 space-y-1">
+            <div class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-wider text-white/40">Phases suivantes</div>
+            <button onclick="adminNav('finance')" data-nav="finance" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:bg-white/5 transition">
+              <i data-lucide="wallet" class="w-4 h-4"></i> Finance
+            </button>
+            <button onclick="adminNav('chantier')" data-nav="chantier" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:bg-white/5 transition">
+              <i data-lucide="hard-hat" class="w-4 h-4"></i> Chantier
+            </button>
+            <button onclick="adminNav('logements')" data-nav="logements" class="admin-nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:bg-white/5 transition">
+              <i data-lucide="home" class="w-4 h-4"></i> Logements
+            </button>
+          </div>
+        </nav>
+        
+        <div class="p-4 border-t border-white/10">
+          <button onclick="closeAdminDashboard()" class="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium bg-white/10 hover:bg-white/15 transition">
+            <i data-lucide="log-out" class="w-4 h-4"></i> Quitter
+          </button>
+        </div>
+      </aside>
+      
+      <!-- ===== MAIN ===== -->
+      <div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+        
+        <!-- Top bar -->
+        <header class="bg-white border-b border-gray-100 px-4 sm:px-6 py-3 flex items-center justify-between gap-3 flex-shrink-0">
+          <div class="flex items-center gap-3 flex-1 min-w-0">
+            <button onclick="document.getElementById('admin-sidebar').classList.toggle('hidden'); document.getElementById('admin-sidebar').classList.toggle('flex');" class="md:hidden w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center">
+              <i data-lucide="menu" class="w-4 h-4"></i>
+            </button>
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="search" placeholder="Rechercher un dossier, CNI, nom…" class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400">
+            </div>
+          </div>
+          <div class="flex items-center gap-2 sm:gap-4">
+            <button class="relative w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center hover:bg-gray-100">
+              <i data-lucide="bell" class="w-4 h-4 text-gray-600"></i>
+              <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <div class="flex items-center gap-2 pl-2 border-l border-gray-100">
+              <div class="w-8 h-8 rounded-full bg-primary-700 text-white text-xs font-bold flex items-center justify-center">KD</div>
+              <div class="hidden sm:block text-left">
+                <div class="text-xs font-semibold text-gray-900 leading-tight">Kedjevara</div>
+                <div class="text-[10px] text-gray-500">Administrateur</div>
+              </div>
+            </div>
+          </div>
+        </header>
+        
+        <!-- Content scroll -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+          
+          <!-- PAGE: DASHBOARD -->
+          <div id="admin-page-dashboard" class="admin-page space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Pilotage — Phase 1 Dépôt</h1>
+                <p class="text-sm text-gray-500">Tri des candidatures • Port-Bouët • Avant attribution</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <select class="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-white">
+                  <option>Ce mois</option>
+                  <option>3 derniers mois</option>
+                  <option>Cette année</option>
+                </select>
+                <button class="bg-[#0f3d38] hover:bg-[#0a2e2a] text-white text-sm font-medium px-4 py-2 rounded-xl flex items-center gap-1.5">
+                  <i data-lucide="download" class="w-4 h-4"></i> Exporter
+                </button>
+              </div>
+            </div>
+            
+            <!-- KPI cards -->
+            <div class="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+              <div class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
+                    <i data-lucide="users" class="w-5 h-5 text-amber-600"></i>
+                  </div>
+                  <span class="text-[10px] font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+38 sem.</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">247</div>
+                <div class="text-xs text-gray-500 mt-0.5">Dossiers reçus</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <i data-lucide="filter" class="w-5 h-5 text-blue-600"></i>
+                  </div>
+                  <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Auto</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">142</div>
+                <div class="text-xs text-gray-500 mt-0.5">Filtrés (hors zone / doublon)</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
+                    <i data-lucide="eye" class="w-5 h-5 text-amber-600"></i>
+                  </div>
+                  <span class="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">File</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">18</div>
+                <div class="text-xs text-gray-500 mt-0.5">À examiner par le comité</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    <i data-lucide="calendar-check" class="w-5 h-5 text-emerald-600"></i>
+                  </div>
+                  <span class="text-[10px] font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">10/j</span>
+                </div>
+                <div class="text-2xl font-bold text-gray-900">6</div>
+                <div class="text-xs text-gray-500 mt-0.5">Visites planifiées cette sem.</div>
+              </div>
+            </div>
+            
+            <!-- Charts row -->
+            <div class="grid lg:grid-cols-5 gap-4">
+              <!-- Line chart placeholder -->
+              <div class="lg:col-span-3 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="font-semibold text-gray-900">Volume de dossiers reçus</h2>
+                  <select class="text-xs border border-gray-200 rounded-lg px-2 py-1 bg-white">
+                    <option>Mensuel</option>
+                    <option>Hebdo</option>
+                  </select>
+                </div>
+                <div class="relative h-48 sm:h-56">
+                  <svg viewBox="0 0 400 160" class="w-full h-full" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#0d9488" stop-opacity="0.25"/>
+                        <stop offset="100%" stop-color="#0d9488" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <!-- grid -->
+                    <line x1="0" y1="40" x2="400" y2="40" stroke="#f1f5f9" stroke-width="1"/>
+                    <line x1="0" y1="80" x2="400" y2="80" stroke="#f1f5f9" stroke-width="1"/>
+                    <line x1="0" y1="120" x2="400" y2="120" stroke="#f1f5f9" stroke-width="1"/>
+                    <!-- area -->
+                    <path d="M0,130 L33,120 L66,110 L100,95 L133,100 L166,70 L200,55 L233,65 L266,50 L300,60 L333,45 L366,55 L400,40 L400,160 L0,160 Z" fill="url(#areaGrad)"/>
+                    <!-- line -->
+                    <path d="M0,130 L33,120 L66,110 L100,95 L133,100 L166,70 L200,55 L233,65 L266,50 L300,60 L333,45 L366,55 L400,40" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- peak dot -->
+                    <circle cx="333" cy="45" r="4" fill="#0d9488"/>
+                    <circle cx="333" cy="45" r="8" fill="#0d9488" opacity="0.2"/>
+                  </svg>
+                  <div class="absolute top-2 left-[70%] bg-[#0f3d38] text-white text-[10px] font-semibold px-2 py-1 rounded-lg shadow">Août • 12,4M</div>
+                </div>
+                <div class="flex justify-between text-[10px] text-gray-400 mt-1 px-1">
+                  <span>Jan</span><span>Fév</span><span>Mar</span><span>Avr</span><span>Mai</span><span>Jun</span><span>Jul</span><span>Aoû</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Déc</span>
+                </div>
+              </div>
+              
+              <!-- Pie / distribution -->
+              <div class="lg:col-span-2 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="font-semibold text-gray-900">Répartition parc</h2>
+                  <span class="text-xs text-gray-400">120 unités</span>
+                </div>
+                <div class="flex items-center justify-center py-2">
+                  <svg width="140" height="140" viewBox="0 0 36 36" class="transform -rotate-90">
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e2e8f0" stroke-width="3.5"/>
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#0d9488" stroke-width="3.5" stroke-dasharray="42 58" stroke-dashoffset="0"/>
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f97316" stroke-width="3.5" stroke-dasharray="26 74" stroke-dashoffset="-42"/>
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#5c4033" stroke-width="3.5" stroke-dasharray="13 87" stroke-dashoffset="-68"/>
+                  </svg>
+                </div>
+                <div class="space-y-2 mt-2">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-primary-600"></span> Studios</span>
+                    <span class="font-semibold">42 %</span>
+                  </div>
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span> 2 pièces</span>
+                    <span class="font-semibold">31 %</span>
+                  </div>
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#5c4033]"></span> 3 pièces</span>
+                    <span class="font-semibold">16 %</span>
+                  </div>
+                  <div class="flex items-center justify-between text-xs text-gray-400">
+                    <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-gray-300"></span> Disponibles</span>
+                    <span class="font-semibold">11 %</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Table dossiers -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              <div class="px-5 py-4 flex items-center justify-between border-b border-gray-50">
+                <h2 class="font-semibold text-gray-900">Dernières candidatures</h2>
+                <button onclick="adminNav('dossiers')" class="text-xs font-medium text-primary-700 hover:underline">Voir tout →</button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="text-left text-xs text-gray-500 bg-gray-50/80">
+                      <th class="px-5 py-3 font-medium">Candidat</th>
+                      <th class="px-3 py-3 font-medium hidden sm:table-cell">Activité</th>
+                      <th class="px-3 py-3 font-medium">Type</th>
+                      <th class="px-3 py-3 font-medium">Statut</th>
+                      <th class="px-5 py-3 font-medium text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-table-body" class="divide-y divide-gray-50">
+                    <!-- Rempli par JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- PAGE: DOSSIERS (liste complète) -->
+          <div id="admin-page-dossiers" class="admin-page hidden space-y-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Gestion des dossiers</h1>
+              <p class="text-sm text-gray-500">Examen, validation et suivi des candidatures</p>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="text-left text-xs text-gray-500 bg-gray-50/80">
+                      <th class="px-5 py-3 font-medium">Candidat</th>
+                      <th class="px-3 py-3 font-medium hidden sm:table-cell">Activité</th>
+                      <th class="px-3 py-3 font-medium">Type</th>
+                      <th class="px-3 py-3 font-medium">Statut</th>
+                      <th class="px-5 py-3 font-medium text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-table-body-full" class="divide-y divide-gray-50"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- PAGE: FINANCE -->
+          <div id="admin-page-finance" class="admin-page hidden space-y-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Finance & Mobile Money</h1>
+              <p class="text-sm text-gray-500">Encaissements Wave, Orange, MTN, Moov</p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="bg-white rounded-2xl p-4 border border-gray-100 text-center">
+                <div class="text-xs font-medium text-yellow-700 mb-1">Wave</div>
+                <div class="text-xl font-bold">4,8M</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100 text-center">
+                <div class="text-xs font-medium text-orange-700 mb-1">Orange Money</div>
+                <div class="text-xl font-bold">3,9M</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100 text-center">
+                <div class="text-xs font-medium text-yellow-600 mb-1">MTN MoMo</div>
+                <div class="text-xl font-bold">2,1M</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100 text-center">
+                <div class="text-xs font-medium text-blue-700 mb-1">Moov</div>
+                <div class="text-xl font-bold">1,6M</div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-gray-100">
+              <div class="text-sm text-gray-600">Taux de succès des transactions : <strong class="text-green-600">97,2 %</strong></div>
+              <div class="text-sm text-gray-600 mt-1">Relances automatiques J-3 / J / J+3 actives</div>
+            </div>
+          </div>
+          
+          <!-- PAGE: LOGEMENTS -->
+          <div id="admin-page-logements" class="admin-page hidden space-y-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Parc immobilier</h1>
+              <p class="text-sm text-gray-500">120 unités • Port-Bouët</p>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div class="bg-white rounded-2xl p-5 border border-gray-100">
+                <div class="text-sm font-medium text-gray-500 mb-1">Studios</div>
+                <div class="text-2xl font-bold text-gray-900">42 / 50</div>
+                <div class="h-2 bg-gray-100 rounded-full mt-3 overflow-hidden"><div class="h-full bg-primary-500 rounded-full" style="width:84%"></div></div>
+                <div class="text-xs text-gray-400 mt-2">50 000 FCFA/mois</div>
+              </div>
+              <div class="bg-white rounded-2xl p-5 border border-gray-100">
+                <div class="text-sm font-medium text-gray-500 mb-1">2 pièces</div>
+                <div class="text-2xl font-bold text-gray-900">31 / 40</div>
+                <div class="h-2 bg-gray-100 rounded-full mt-3 overflow-hidden"><div class="h-full bg-orange-500 rounded-full" style="width:77%"></div></div>
+                <div class="text-xs text-gray-400 mt-2">120–130 000 FCFA/mois</div>
+              </div>
+              <div class="bg-white rounded-2xl p-5 border border-gray-100">
+                <div class="text-sm font-medium text-gray-500 mb-1">3 pièces</div>
+                <div class="text-2xl font-bold text-gray-900">16 / 30</div>
+                <div class="h-2 bg-gray-100 rounded-full mt-3 overflow-hidden"><div class="h-full bg-[#5c4033] rounded-full" style="width:53%"></div></div>
+                <div class="text-xs text-gray-400 mt-2">180–200 000 FCFA/mois</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- PAGE: CHANTIER -->
+          <div id="admin-page-chantier" class="admin-page hidden space-y-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Suivi de chantier</h1>
+              <p class="text-sm text-gray-500">Transparence « 0 risque » • Photos géolocalisées</p>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div class="bg-white rounded-2xl p-5 border border-gray-100">
+                <div class="flex justify-between text-sm mb-2"><span>Terrassement</span><span class="font-bold text-green-600">100 %</span></div>
+                <div class="h-2 bg-gray-100 rounded-full"><div class="h-full bg-green-500 rounded-full w-full"></div></div>
+              </div>
+              <div class="bg-white rounded-2xl p-5 border border-gray-100">
+                <div class="flex justify-between text-sm mb-2"><span>Élévation</span><span class="font-bold text-primary-600">68 %</span></div>
+                <div class="h-2 bg-gray-100 rounded-full"><div class="h-full bg-primary-500 rounded-full" style="width:68%"></div></div>
+              </div>
+              <div class="bg-white rounded-2xl p-5 border border-gray-100">
+                <div class="flex justify-between text-sm mb-2"><span>Finitions</span><span class="font-bold text-gray-400">12 %</span></div>
+                <div class="h-2 bg-gray-100 rounded-full"><div class="h-full bg-gray-300 rounded-full" style="width:12%"></div></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-gray-100 text-sm text-gray-600">
+              Dernière photo : Bloc A – Élévation R+1 • il y a 2 jours • géolocalisée Port-Bouët
+            </div>
+          </div>
+          
+          <!-- PAGE: BENEFICIAIRES -->
+          <div id="admin-page-beneficiaires" class="admin-page hidden space-y-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Bénéficiaires</h1>
+              <p class="text-sm text-gray-500">Contrats actifs • Succession • Anti-spéculation 50 ans</p>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div class="bg-white rounded-2xl p-5 border border-gray-100 text-center">
+                <div class="text-3xl font-bold text-gray-900">89</div>
+                <div class="text-xs text-gray-500 mt-1">Contrats actifs</div>
+              </div>
+              <div class="bg-white rounded-2xl p-5 border border-gray-100 text-center">
+                <div class="text-3xl font-bold text-gray-900">0</div>
+                <div class="text-xs text-gray-500 mt-1">Transferts succession</div>
+              </div>
+              <div class="bg-white rounded-2xl p-5 border border-gray-100 text-center">
+                <div class="text-3xl font-bold text-primary-700">50 ans</div>
+                <div class="text-xs text-gray-500 mt-1">Verrou anti-revente actif</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- PAGE: CRENEAUX VISITE -->
+          <div id="admin-page-visites" class="admin-page hidden space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Créneaux de visite</h1>
+                <p class="text-sm text-gray-500">Max. 10 personnes / jour • Uniquement dossiers présélectionnés</p>
+              </div>
+              <button class="bg-[#0f3d38] text-white text-sm font-medium px-4 py-2 rounded-xl">+ Ouvrir une journée</button>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500 mb-1">Lundi 1 sept.</div>
+                <div class="text-lg font-bold">8 / 10</div>
+                <div class="text-xs text-amber-600 mt-1">2 places restantes</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500 mb-1">Mardi 2 sept.</div>
+                <div class="text-lg font-bold">5 / 10</div>
+                <div class="text-xs text-green-600 mt-1">5 places restantes</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500 mb-1">Mercredi 3 sept.</div>
+                <div class="text-lg font-bold">0 / 10</div>
+                <div class="text-xs text-gray-400 mt-1">Journée ouverte</div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+              <div class="px-5 py-3 border-b border-gray-50 font-semibold text-sm">Planning du jour (exemple)</div>
+              <div class="divide-y divide-gray-50 text-sm">
+                <div class="px-5 py-3 flex justify-between items-center"><span>09:00 — Kouassi Aya M.</span><span class="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Confirmé SMS</span></div>
+                <div class="px-5 py-3 flex justify-between items-center"><span>09:30 — Traoré Ibrahim</span><span class="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Confirmé SMS</span></div>
+                <div class="px-5 py-3 flex justify-between items-center"><span>10:00 — Koné Seydou</span><span class="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">En attente</span></div>
+                <div class="px-5 py-3 flex justify-between items-center text-gray-400"><span>10:30 — Libre</span><span class="text-xs">—</span></div>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500">Règle démo : absent 2 fois → dossier repasse en bas de file. Convocation par SMS + WhatsApp avec lieu et code.</p>
+          </div>
+          
+          <!-- PAGE: ANTI-FRAUDE -->
+          <div id="admin-page-fraude" class="admin-page hidden space-y-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Contrôle anti-fraude</h1>
+              <p class="text-sm text-gray-500">Filtres automatiques avant revue humaine</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500">Doublons CNI bloqués</div>
+                <div class="text-2xl font-bold text-red-600 mt-1">23</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500">Pièces non conformes</div>
+                <div class="text-2xl font-bold text-red-600 mt-1">89</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500">Téléphones déjà utilisés</div>
+                <div class="text-2xl font-bold text-amber-600 mt-1">17</div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 border border-gray-100">
+                <div class="text-xs text-gray-500">Dossiers incomplets</div>
+                <div class="text-2xl font-bold text-gray-700 mt-1">41</div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-gray-100 space-y-3 text-sm text-gray-700">
+              <div class="font-semibold text-gray-900">Règles actives (Phase 1)</div>
+              <ul class="space-y-2 list-disc pl-5">
+                <li>1 numéro CNI = 1 seul dossier</li>
+                <li>1 téléphone (OTP) = 1 compte</li>
+                <li>Justificatif de résidence obligatoire (CIE / SODECI / certificat) — tout Ivoirien éligible</li>
+                <li>Croisement CNI conjoint pour anti-cumul foyer</li>
+                <li>Le candidat ne voit pas le score budgétaire (contrôle interne)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <p class="text-center text-[11px] text-gray-400 py-4">CI HABITAT Contrôle Phase 1 • Données de démonstration • Fondation 18 Avril × Kedjevara Immobilier</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-primary-900 text-primary-100 py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between gap-8 mb-10">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-bold text-sm">CI</div>
+            <span class="font-bold text-white text-lg">CI HABITAT</span>
+          </div>
+          <p class="text-sm text-primary-200 max-w-xs">Programme de logements sociaux et économiques de la Fondation 18 Avril & Kedjevara Immobilier.</p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-8 text-sm">
+          <div>
+            <h4 class="font-semibold text-white mb-3">Liens utiles</h4>
+            <ul class="space-y-2 text-primary-200">
+              <li><a href="#logements" class="hover:text-white transition">Logements</a></li>
+              <li><a href="#avantages" class="hover:text-white transition">Règles du programme</a></li>
+              <li><a href="#transparence" class="hover:text-white transition">Suivi chantier</a></li>
+              <li><a href="#candidature" class="hover:text-white transition">Candidature</a></li>
+              <li><button onclick="openAdminDashboard()" class="hover:text-white transition text-left">Espace Contrôle (Admin)</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white mb-3">Contact</h4>
+            <ul class="space-y-2 text-primary-200">
+              <li>Port-Bouët, Abidjan</li>
+              <li>Fondation 18 Avril</li>
+              <li>Kedjevara Immobilier</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-primary-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-primary-300">
+        <p>© 2026 CI HABITAT • Fondation 18 Avril × Kedjevara Immobilier</p>
+        <p>Démo UI/UX – Non connectée à la production</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="modal-login" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('login')"></div>
+    <div class="absolute bottom-0 left-0 right-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-white rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full sm:max-w-md shadow-2xl safe-bottom">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold text-gray-900">Connexion</h3>
+        <button onclick="closeModal('login')" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <p class="text-sm text-gray-600 mb-5">Entrez votre numéro de téléphone. Vous recevrez un code OTP par SMS.</p>
+      <div class="flex mb-4">
+        <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-gray-200 bg-gray-50 text-gray-500 text-sm">+225</span>
+        <input type="tel" placeholder="07 08 09 10 11" class="flex-1 px-4 py-3 rounded-r-xl border border-gray-200 focus:border-primary-500 outline-none">
+      </div>
+      <button onclick="closeModal('login'); openDashboard();" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 rounded-xl transition">
+        Recevoir le code
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Init icons
+    lucide.createIcons();
+    
+    let currentStep = 1;
+    let isRecording = false;
+    let recordingInterval = null;
+    let recordingSeconds = 0;
+    
+    // ===== LOCALSTORAGE PERSISTENCE =====
+    const STORAGE_KEYS = {
+      applications: 'ci_habitat_applications',
+      payments: 'ci_habitat_payments',
+      currentUser: 'ci_habitat_current_user'
+    };
+    
+    function loadApplications() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.applications) || '[]');
+      } catch { return []; }
+    }
+    
+    function saveApplications(list) {
+      localStorage.setItem(STORAGE_KEYS.applications, JSON.stringify(list));
+    }
+    
+    function loadPayments() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.payments) || '[]');
+      } catch { return []; }
+    }
+    
+    function savePayments(list) {
+      localStorage.setItem(STORAGE_KEYS.payments, JSON.stringify(list));
+    }
+    
+    function generateRef() {
+      const num = Math.floor(10000 + Math.random() * 90000);
+      return 'PB-2026-' + num;
+    }
+    
+    // Seed initial demo data if empty
+    function ensureSeedData() {
+      let apps = loadApplications();
+      if (apps.length === 0) {
+        apps = [
+          {
+            id: 'kouassi',
+            ref: 'PB-2026-00482',
+            name: 'Kouassi Aya Marie',
+            status: 'En revue',
+            type: 'Studio',
+            typeLabel: 'Studio • 50 000 FCFA/mois',
+            activity: "Je vends de l'igname et du manioc au marché de Vridi. Je gagne environ 120 000 à 180 000 francs par mois selon la saison.",
+            cni: 'CI 12 3456789 01',
+            phone: '+225 07 08 09 10 11',
+            residence: 'Oui • Facture CIE',
+            income: '180 000 FCFA',
+            expenses: '75 000 FCFA',
+            rent: '35 000 FCFA',
+            monthly: '50 000 FCFA',
+            balance: '+ 55 000 FCFA',
+            balancePositive: true,
+            spouse: 'Non déclaré',
+            children: '2 (actes joints)',
+            rejected: false,
+            actions: true,
+            createdAt: '2026-08-28'
+          },
+          {
+            id: 'traore',
+            ref: 'PB-2026-00479',
+            name: 'Traoré Ibrahim',
+            status: 'Validé',
+            type: '2 pièces',
+            typeLabel: '2 pièces • 125 000 FCFA/mois',
+            activity: "Je conduis un gbaka sur la ligne Port-Bouët – Adjamé. Mes journées me rapportent entre 8 000 et 12 000 francs, donc environ 250 000 par mois.",
+            cni: 'CI 08 9876543 12',
+            phone: '+225 05 12 34 56 78',
+            residence: 'Oui • Facture SODECI',
+            income: '250 000 FCFA',
+            expenses: '90 000 FCFA',
+            rent: '50 000 FCFA',
+            monthly: '125 000 FCFA',
+            balance: '+ 35 000 FCFA',
+            balancePositive: true,
+            spouse: 'Oui • CNI déclarée',
+            children: '3 (actes joints)',
+            rejected: false,
+            actions: false,
+            createdAt: '2026-08-26'
+          },
+          {
+            id: 'bamba',
+            ref: 'PB-2026-00475',
+            name: 'Bamba Fatou',
+            status: 'Rejeté',
+            type: 'Studio',
+            typeLabel: 'Studio • 50 000 FCFA/mois',
+            activity: "Je suis couturière.",
+            cni: 'CI 15 1122334 05',
+            phone: '+225 01 23 45 67 89',
+            residence: 'Non vérifié',
+            income: '80 000 FCFA',
+            expenses: '60 000 FCFA',
+            rent: '30 000 FCFA',
+            monthly: '50 000 FCFA',
+            balance: '- 30 000 FCFA',
+            balancePositive: false,
+            spouse: 'Non déclaré',
+            children: '1',
+            rejected: true,
+            rejectReason: 'Capacité budgétaire insuffisante (solde négatif) et justificatif de résidence Port-Bouët non conforme / trop ancien.',
+            actions: false,
+            createdAt: '2026-08-25'
+          },
+          {
+            id: 'kone',
+            ref: 'PB-2026-00471',
+            name: 'Koné Seydou',
+            status: 'En revue',
+            type: '3 pièces',
+            typeLabel: '3 pièces • 190 000 FCFA/mois',
+            activity: "Je vends du poisson fumé au marché. Mon épouse m'aide parfois. On arrive à sortir 220 000 à 280 000 francs par mois en bonne période.",
+            cni: 'CI 09 5566778 03',
+            phone: '+225 07 99 88 77 66',
+            residence: 'Oui • Certificat de résidence',
+            income: '250 000 FCFA',
+            expenses: '100 000 FCFA',
+            rent: '60 000 FCFA',
+            monthly: '190 000 FCFA',
+            balance: '+ 20 000 FCFA',
+            balancePositive: true,
+            spouse: 'Oui • CNI déclarée',
+            children: '4 (actes joints)',
+            rejected: false,
+            actions: true,
+            createdAt: '2026-08-24'
+          }
+        ];
+        saveApplications(apps);
+      }
+    }
+    
+    ensureSeedData();
+    
+    function scrollToSection(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    function startApplication(type) {
+      if (type === 'studio') document.getElementById('housing_choice').value = '50000';
+      if (type === '2_pieces') document.getElementById('housing_choice').value = '125000';
+      if (type === '3_pieces') document.getElementById('housing_choice').value = '190000';
+      scrollToSection('candidature');
+    }
+    
+    function nextStep(step) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`form-step-${i}`).classList.add('hidden');
+        const ind = document.getElementById(`step-${i}-indicator`);
+        ind.className = 'w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center text-sm font-bold text-gray-400 transition-all';
+      }
+      
+      document.getElementById(`form-step-${step}`).classList.remove('hidden');
+      currentStep = step;
+      
+      for (let i = 1; i <= 4; i++) {
+        const ind = document.getElementById(`step-${i}-indicator`);
+        if (i < step) {
+          ind.className = 'w-10 h-10 rounded-full border-2 border-primary-300 bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-bold transition-all';
+          ind.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i>';
+        } else if (i === step) {
+          ind.className = 'w-10 h-10 rounded-full border-2 border-primary-600 bg-primary-600 text-white flex items-center justify-center text-sm font-bold transition-all';
+          ind.textContent = i;
+        }
+      }
+      lucide.createIcons();
+      
+      if (step === 4) {
+        ['budget_income','budget_expenses','budget_rent','budget_transport','housing_choice'].forEach(id => {
+          document.getElementById(id).addEventListener('input', calcBudget);
+        });
+        calcBudget();
+      }
+    }
+    
+    function calcBudget() {
+      const income = Number(document.getElementById('budget_income').value) || 0;
+      const expenses = Number(document.getElementById('budget_expenses').value) || 0;
+      const rent = Number(document.getElementById('budget_rent').value) || 0;
+      const transport = Number(document.getElementById('budget_transport').value) || 0;
+      const monthly = Number(document.getElementById('housing_choice').value) || 0;
+      
+      const remaining = income - (expenses - rent + monthly + transport);
+      const el = document.getElementById('budget_result');
+      el.textContent = remaining.toLocaleString('fr-FR') + ' FCFA';
+      el.className = remaining >= 0 ? 'font-bold text-green-600' : 'font-bold text-red-600';
+    }
+    
+    // ===== DICTÉE VOCALE (simulation réaliste) =====
+    function toggleDictation() {
+      if (isRecording) {
+        stopDictation(true);
+      } else {
+        startDictation();
+      }
+    }
+    
+    function startDictation() {
+      isRecording = true;
+      recordingSeconds = 0;
+      document.getElementById('recording-ui').classList.remove('hidden');
+      document.getElementById('mic-btn').classList.add('bg-red-600', 'hover:bg-red-700');
+      document.getElementById('mic-btn').classList.remove('bg-primary-600', 'hover:bg-primary-700');
+      
+      recordingInterval = setInterval(() => {
+        recordingSeconds++;
+        const m = Math.floor(recordingSeconds / 60);
+        const s = recordingSeconds % 60;
+        document.getElementById('recording-timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+      }, 1000);
+      
+      lucide.createIcons();
+    }
+    
+    function stopDictation(save) {
+      isRecording = false;
+      clearInterval(recordingInterval);
+      document.getElementById('recording-ui').classList.add('hidden');
+      document.getElementById('mic-btn').classList.remove('bg-red-600', 'hover:bg-red-700');
+      document.getElementById('mic-btn').classList.add('bg-primary-600', 'hover:bg-primary-700');
+      
+      if (save) {
+        // Simulation de transcription réaliste (exemples authentiques Port-Bouët)
+        const examples = [
+          "Je vends de l'igname et du manioc au marché de Vridi. Je gagne environ 120 000 à 180 000 francs par mois selon la saison.",
+          "Je suis couturière à domicile à Port-Bouët. Je fais des habits pour les femmes du quartier, je gagne à peu près 150 000 FCFA par mois.",
+          "Je conduis un gbaka sur la ligne Port-Bouët – Adjamé. Mes journées me rapportent entre 8 000 et 12 000 francs, donc environ 250 000 par mois.",
+          "Je vends du poisson fumé au marché. Mon mari m'aide parfois. On arrive à sortir 200 000 francs par mois en bonne période."
+        ];
+        const random = examples[Math.floor(Math.random() * examples.length)];
+        const textarea = document.getElementById('activity');
+        textarea.value = random;
+        textarea.classList.add('ring-2', 'ring-green-300');
+        setTimeout(() => textarea.classList.remove('ring-2', 'ring-green-300'), 2000);
+      }
+      
+      lucide.createIcons();
+    }
+    
+    function submitApplication() {
+      // Collect form data
+      const name = document.getElementById('full_name')?.value?.trim() || 'Candidat Anonyme';
+      const cni = document.getElementById('cni_number')?.value?.trim() || 'CI —';
+      const phoneRaw = document.getElementById('phone')?.value?.trim() || '';
+      const phone = phoneRaw ? '+225 ' + phoneRaw : '+225 —';
+      const activity = document.getElementById('activity')?.value?.trim() || 'Non renseigné';
+      const incomeVal = document.getElementById('income')?.value || document.getElementById('budget_income')?.value || '0';
+      const housingVal = document.getElementById('housing_choice')?.value || '50000';
+      
+      const typeMap = {
+        '50000': { type: 'Studio', label: 'Studio • 50 000 FCFA/mois' },
+        '125000': { type: '2 pièces', label: '2 pièces • 125 000 FCFA/mois' },
+        '190000': { type: '3 pièces', label: '3 pièces • 190 000 FCFA/mois' }
+      };
+      const housing = typeMap[housingVal] || typeMap['50000'];
+      
+      const budgetIncome = Number(document.getElementById('budget_income')?.value) || Number(incomeVal) || 0;
+      const budgetExpenses = Number(document.getElementById('budget_expenses')?.value) || 0;
+      const budgetRent = Number(document.getElementById('budget_rent')?.value) || 0;
+      const budgetTransport = Number(document.getElementById('budget_transport')?.value) || 0;
+      const monthly = Number(housingVal);
+      const remaining = budgetIncome - (budgetExpenses - budgetRent + monthly + budgetTransport);
+      
+      const newApp = {
+        id: 'app_' + Date.now(),
+        ref: generateRef(),
+        name: name,
+        status: 'En revue',
+        type: housing.type,
+        typeLabel: housing.label,
+        activity: activity,
+        cni: cni,
+        phone: phone,
+        residence: 'En attente de vérification',
+        income: budgetIncome.toLocaleString('fr-FR') + ' FCFA',
+        expenses: budgetExpenses.toLocaleString('fr-FR') + ' FCFA',
+        rent: budgetRent.toLocaleString('fr-FR') + ' FCFA',
+        monthly: monthly.toLocaleString('fr-FR') + ' FCFA',
+        balance: (remaining >= 0 ? '+ ' : '') + remaining.toLocaleString('fr-FR') + ' FCFA',
+        balancePositive: remaining >= 0,
+        spouse: 'Non déclaré',
+        children: 'Non renseigné',
+        rejected: false,
+        actions: true,
+        createdAt: new Date().toISOString().slice(0, 10),
+        isNew: true
+      };
+      
+      const apps = loadApplications();
+      apps.unshift(newApp);
+      saveApplications(apps);
+      
+      // Save as current user application
+      localStorage.setItem(STORAGE_KEYS.currentUser, JSON.stringify(newApp));
+      
+      // UI success
+      document.getElementById('form-step-4').classList.add('hidden');
+      document.getElementById('form-success').classList.remove('hidden');
+      for (let i = 1; i <= 4; i++) {
+        const ind = document.getElementById(`step-${i}-indicator`);
+        ind.className = 'w-10 h-10 rounded-full border-2 border-primary-300 bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-bold transition-all';
+        ind.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i>';
+      }
+      lucide.createIcons();
+      
+      // Refresh admin table if open later
+      renderAdminTable();
+    }
+    
+    function openDashboard() {
+      document.getElementById('dashboard-preview').classList.remove('hidden');
+      document.getElementById('candidature').classList.add('hidden');
+      showDashTab('paiements');
+      renderPaymentHistory();
+      
+      // Update user name/status if we have a current application
+      try {
+        const current = JSON.parse(localStorage.getItem(STORAGE_KEYS.currentUser) || 'null');
+        if (current) {
+          const nameEl = document.querySelector('#dashboard-preview .text-sm.text-gray-500');
+          if (nameEl) nameEl.textContent = current.name + ' • Candidat';
+          const refEl = document.querySelector('#dashboard-preview .font-mono');
+          if (refEl) refEl.textContent = current.ref;
+        }
+      } catch {}
+      
+      scrollToSection('dashboard-preview');
+      lucide.createIcons();
+    }
+    
+    function closeDashboard() {
+      document.getElementById('dashboard-preview').classList.add('hidden');
+      document.getElementById('candidature').classList.remove('hidden');
+      document.getElementById('form-success').classList.add('hidden');
+      document.getElementById('form-step-1').classList.remove('hidden');
+      nextStep(1);
+      scrollToSection('candidature');
+    }
+    
+    // ===== DASHBOARD TABS =====
+    function showDashTab(tab) {
+      document.querySelectorAll('.dash-panel').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`dash-${tab}`).classList.remove('hidden');
+      
+      // Style des boutons
+      document.querySelectorAll('.dash-tab').forEach(btn => {
+        btn.classList.remove('bg-primary-50', 'border-primary-200');
+        btn.classList.add('bg-white', 'border-gray-100');
+        const span = btn.querySelector('span');
+        if (span) span.classList.remove('text-primary-700');
+      });
+      
+      // Activer le bouton cliqué (via event si possible, sinon on laisse)
+      lucide.createIcons();
+    }
+    
+    // ===== SIMULATION PAIEMENT MOBILE MONEY =====
+    function simulatePayment(gateway) {
+      const names = {
+        wave: 'Wave',
+        orange: 'Orange Money',
+        mtn: 'MTN MoMo',
+        moov: 'Moov Money'
+      };
+      
+      const btn = event.currentTarget;
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span class="animate-pulse">Traitement...</span>';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.disabled = false;
+        
+        const ref = gateway.toUpperCase().slice(0,2) + '-20260901-' + Math.floor(Math.random()*90000+10000);
+        
+        // Persist payment
+        const payments = loadPayments();
+        payments.unshift({
+          id: Date.now(),
+          gateway: names[gateway],
+          ref: ref,
+          amount: 50000,
+          label: 'Mensualité 1/120',
+          date: new Date().toISOString()
+        });
+        savePayments(payments);
+        
+        document.getElementById('payment-gateway-name').textContent = 'via ' + names[gateway];
+        document.getElementById('modal-payment-success').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        renderPaymentHistory();
+        lucide.createIcons();
+      }, 1500);
+    }
+    
+    function renderPaymentHistory() {
+      const history = document.getElementById('payment-history');
+      if (!history) return;
+      const payments = loadPayments();
+      
+      if (payments.length === 0) {
+        history.innerHTML = `
+          <div class="text-center py-6 text-sm text-gray-400">
+            Aucun paiement effectué pour le moment.<br>
+            Votre première mensualité sera due après attribution.
+          </div>`;
+        return;
+      }
+      
+      history.innerHTML = payments.map(p => `
+        <div class="flex items-center justify-between py-3 border-b border-gray-50">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center">
+              <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+            </div>
+            <div>
+              <div class="text-sm font-medium">${p.label}</div>
+              <div class="text-xs text-gray-500">${p.gateway} • ${p.ref}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm font-semibold text-green-600">+${Number(p.amount).toLocaleString('fr-FR')} F</div>
+            <div class="text-xs text-gray-400">${new Date(p.date).toLocaleDateString('fr-FR')}</div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+    
+    function closePaymentSuccess() {
+      document.getElementById('modal-payment-success').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    
+    function openModal(id) {
+      document.getElementById(`modal-${id}`).classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    }
+    
+    function closeModal(id) {
+      document.getElementById(`modal-${id}`).classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    
+    // ===== ADMIN DASHBOARD =====
+    function openAdminDashboard() {
+      document.getElementById('admin-dashboard').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      adminNav('dashboard');
+      renderAdminTable();
+      lucide.createIcons();
+    }
+    
+    function closeAdminDashboard() {
+      document.getElementById('admin-dashboard').classList.add('hidden');
+      document.body.style.overflow = '';
+      // reset mobile sidebar
+      const sb = document.getElementById('admin-sidebar');
+      if (sb) {
+        sb.classList.add('hidden');
+        sb.classList.remove('flex');
+      }
+    }
+    
+    function adminNav(page) {
+      document.querySelectorAll('.admin-page').forEach(el => el.classList.add('hidden'));
+      const target = document.getElementById('admin-page-' + page);
+      if (target) target.classList.remove('hidden');
+      
+      document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+        btn.classList.remove('bg-[#1a9b8e]', 'text-white');
+        btn.classList.add('text-white/70');
+        if (btn.getAttribute('data-nav') === page) {
+          btn.classList.add('bg-[#1a9b8e]', 'text-white');
+          btn.classList.remove('text-white/70');
+        }
+      });
+      
+      if (page === 'dossiers' || page === 'dashboard') renderAdminTable();
+      lucide.createIcons();
+    }
+    
+    // ===== DÉTAIL DOSSIER (depuis localStorage) =====
+    let currentDossierId = null;
+    
+    function getStatusClass(status) {
+      if (status === 'Validé') return 'bg-green-50 text-green-700';
+      if (status === 'Rejeté') return 'bg-red-50 text-red-700';
+      return 'bg-amber-50 text-amber-700';
+    }
+    
+    function getTypeClass(type) {
+      if (type && type.includes('2')) return 'bg-accent-50 text-accent-700';
+      if (type && type.includes('3')) return 'bg-earth-100 text-earth-800';
+      return 'bg-primary-50 text-primary-700';
+    }
+    
+    function openDossierDetail(id) {
+      const apps = loadApplications();
+      const d = apps.find(a => a.id === id || a.ref === id);
+      if (!d) return;
+      
+      currentDossierId = d.id;
+      
+      document.getElementById('dossier-ref').textContent = d.ref;
+      document.getElementById('dossier-name').textContent = d.name;
+      
+      const statusEl = document.getElementById('dossier-status');
+      statusEl.textContent = d.status;
+      statusEl.className = 'text-xs font-semibold px-2.5 py-1 rounded-full ' + getStatusClass(d.status);
+      
+      const typeEl = document.getElementById('dossier-type');
+      typeEl.textContent = d.typeLabel || d.type;
+      typeEl.className = 'text-xs font-semibold px-2.5 py-1 rounded-full ' + getTypeClass(d.type);
+      
+      document.getElementById('dossier-cni').textContent = d.cni || '—';
+      document.getElementById('dossier-phone').textContent = d.phone || '—';
+      document.getElementById('dossier-residence').textContent = d.residence || '—';
+      document.getElementById('dossier-activity').textContent = d.activity || '—';
+      document.getElementById('dossier-income').textContent = d.income || '—';
+      document.getElementById('dossier-expenses').textContent = d.expenses || '—';
+      document.getElementById('dossier-rent').textContent = d.rent || '—';
+      document.getElementById('dossier-monthly').textContent = d.monthly || '—';
+      
+      const bal = document.getElementById('dossier-balance');
+      bal.textContent = d.balance || '—';
+      bal.className = d.balancePositive ? 'font-bold text-green-700' : 'font-bold text-red-600';
+      bal.parentElement.className = d.balancePositive 
+        ? 'flex justify-between px-4 py-3 bg-green-50' 
+        : 'flex justify-between px-4 py-3 bg-red-50';
+      
+      document.getElementById('dossier-spouse').textContent = d.spouse || 'Non déclaré';
+      document.getElementById('dossier-children').textContent = d.children || 'Non renseigné';
+      
+      const rejectBox = document.getElementById('dossier-reject-box');
+      if (d.rejected || d.status === 'Rejeté') {
+        rejectBox.classList.remove('hidden');
+        document.getElementById('dossier-reject-reason').textContent = d.rejectReason || 'Motif non précisé';
+      } else {
+        rejectBox.classList.add('hidden');
+      }
+      
+      const actions = document.getElementById('dossier-actions');
+      if (d.actions || d.status === 'En revue') {
+        actions.classList.remove('hidden');
+      } else {
+        actions.classList.add('hidden');
+      }
+      
+      document.getElementById('modal-dossier').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    
+    function closeDossierDetail() {
+      document.getElementById('modal-dossier').classList.add('hidden');
+      currentDossierId = null;
+    }
+    
+    function dossierAction(action) {
+      if (!currentDossierId) return;
+      
+      const apps = loadApplications();
+      const idx = apps.findIndex(a => a.id === currentDossierId);
+      if (idx === -1) return;
+      
+      if (action === 'approve') {
+        apps[idx].status = 'Validé';
+        apps[idx].actions = false;
+        apps[idx].rejected = false;
+      } else if (action === 'reject') {
+        apps[idx].status = 'Rejeté';
+        apps[idx].actions = false;
+        apps[idx].rejected = true;
+        apps[idx].rejectReason = apps[idx].rejectReason || 'Rejeté par le comité d\'attribution.';
+      } else if (action === 'request') {
+        apps[idx].status = 'En revue';
+        // keep actions true
+      }
+      
+      saveApplications(apps);
+      renderAdminTable();
+      
+      const messages = {
+        approve: 'Dossier validé avec succès. Le candidat recevra une notification SMS/WhatsApp.',
+        reject: 'Dossier rejeté. Un motif a été enregistré et le candidat sera notifié.',
+        request: 'Demande de complément envoyée au candidat par SMS et WhatsApp.'
+      };
+      alert(messages[action] || 'Action enregistrée.');
+      closeDossierDetail();
+    }
+    
+    // ===== RENDER ADMIN TABLE FROM STORAGE =====
+    function renderAdminTable() {
+      const apps = loadApplications();
+      
+      const rowHtml = (d) => {
+        const statusClass = getStatusClass(d.status);
+        const typeClass = getTypeClass(d.type);
+        const actionLabel = d.status === 'Validé' ? 'Voir' : (d.status === 'Rejeté' ? 'Motif' : 'Examiner');
+        const actionClass = d.status === 'Rejeté' ? 'text-gray-400' : 'text-primary-600 hover:underline';
+        const badge = d.isNew ? '<span class="ml-1 text-[10px] bg-primary-100 text-primary-700 px-1.5 py-0.5 rounded-full">Nouveau</span>' : '';
+        return `
+          <tr class="hover:bg-gray-50 cursor-pointer" onclick="openDossierDetail('${d.id}')">
+            <td class="px-5 py-3">
+              <div class="font-medium text-gray-900">${d.name}${badge}</div>
+              <div class="text-xs text-gray-400">${d.ref}</div>
+            </td>
+            <td class="px-3 py-3 hidden sm:table-cell text-gray-600 text-xs max-w-[160px] truncate">${(d.activity || '').slice(0, 45)}</td>
+            <td class="px-3 py-3"><span class="text-xs ${typeClass} px-2 py-0.5 rounded-full">${d.type}</span></td>
+            <td class="px-3 py-3"><span class="text-xs ${statusClass} px-2 py-0.5 rounded-full">${d.status}</span></td>
+            <td class="px-5 py-3 text-right">
+              <button onclick="event.stopPropagation(); openDossierDetail('${d.id}')" class="text-xs font-medium ${actionClass}">${actionLabel}</button>
+            </td>
+          </tr>`;
+      };
+      
+      const mainBody = document.getElementById('admin-table-body');
+      const fullBody = document.getElementById('admin-table-body-full');
+      if (mainBody) mainBody.innerHTML = apps.slice(0, 8).map(rowHtml).join('');
+      if (fullBody) fullBody.innerHTML = apps.map(rowHtml).join('');
+    }
+    
+    // Initial render
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPaymentHistory();
+    });
+  </script>
+</body>
+</html>
